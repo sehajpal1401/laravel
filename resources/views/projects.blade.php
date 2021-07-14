@@ -97,7 +97,8 @@
                               </i>
                               view
                           </a>
-                          <a class='btn btn-danger btn-sm' href='http://localhost/admin-master/?delete?id=$id&project_id=$row[project_id]'>
+            
+                          <a class='btn btn-danger btn-sm' href="{{route('projects.destroy',$project['id'])}}">
                               <i class='fas fa-trash'>
                               </i>
                               Delete

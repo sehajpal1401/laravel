@@ -18,7 +18,7 @@ use App\Http\Controllers\ProjectController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 Route::get('/display',[ProjectViewController::class,"show"]);
 Route::get('/contacts',[ContactsController::class,"show"]);
