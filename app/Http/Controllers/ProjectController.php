@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
-use App\Models\Project_budget;
+use App\Models\ProjectBudget;
 use App\Models\User;
 class ProjectController extends Controller
 {
@@ -41,7 +41,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $data = new Project;
-        $data1 = new Project_budget;
+        $data1 = new ProjectBudget;
         $data->project_name = $request->name;
         $data->project_description = $request->description;
         $data->project_team =implode(',', $request->teammembers);
@@ -49,10 +49,14 @@ class ProjectController extends Controller
         $data->project_status = $request->status;
         $data->client_company = $request->company;
         $data->project_leader = $request->leader;
+        $data->save();
+        $id=$data->id;
+        //project_budget add
+        $data1->project_id=$id;
         $data1->project_budget = $request->estimated_budget;
         $data1->amount_spent = $request->amount_spent;
         $data1->estimated_duration = $request->estimated_duration;
-        $data->save();
+       
         $data1->save();
 
         return redirect()->route('projects.index')->with('success', 'Project created successfully.');
@@ -66,7 +70,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project_budget=Project_budget::find($id)->toArray();
+        $project_budget=ProjectBudget::find($id)->toArray();
         $projects=Project::find($id)->toArray();
         return view('project-detail', compact('projects','project_budget'));
     }
@@ -80,7 +84,7 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $data=User::all()->toArray();
-        $data1=Project_budget::find($id)->toArray();
+        $data1=ProjectBudget::find($id)->toArray();
         $data2=Project::find($id)->toArray();
         return view('edit', compact('data2','data1'),compact('data'));
     }
@@ -101,7 +105,7 @@ class ProjectController extends Controller
             foreach($request->file('project_file') as $file=>$key)
             {
                 $newFilename=$key->getClientOriginalName();
-                 $key->move(public_path('files'), $newFilename);  
+                 $key->move(public_path('storage'), $newFilename);  
                  array_push($files,$newFilename);
  
             }
@@ -110,7 +114,7 @@ class ProjectController extends Controller
             $project->project_file = $projectfile;
             $project->update();
          }
-        elseif($req->has('project_name')){
+        elseif($request->has('name')){
         $data=Project::find($id);
         $data->project_name = $request->name;
         $data->project_description = $request->description;
@@ -122,7 +126,7 @@ class ProjectController extends Controller
         $data->update();
 
 
-        $data1=Project_budget::where('id',$id)->first();
+        $data1=ProjectBudget::where('id',$id)->first();
         $data1->project_budget = $request->estimated_budget;
         $data1->amount_spent = $request->amount_spent;
         $data1->estimated_duration = $request->estimated_duration;
@@ -140,9 +144,8 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         $projects=Project::find($id);
-        $project->delete();
-        $project_budget=Project_budget::find($id);
-        $project_budget->delete();
+        $projects->delete();
+       
          return redirect()->route('projects.index')
             ->with('success', 'Project deleted successfully');
     }

@@ -73,7 +73,7 @@
                       </td>     
                         
                       <td>
-                         {{$project['project_budget']}}
+                         {{$project->project_budgets->project_budget}}
                       </td>  
                      
                       <td>
@@ -86,24 +86,26 @@
                          {{$project['project_status']}}
                       </td>             
                      
-                      <td class='project-actions text-right'>
-                          <a class='btn btn-primary btn-sm' href="{{route('projects.edit',$project['id'])}}">
-                              <i class='fas fa-folder'>
-                              </i>
-                              Edit
-                          </a>
-                          <a class='btn btn-info btn-sm' href="{{route('projects.show',$project['id'])}}">
-                              <i class='fas fa-pencil-alt'>
-                              </i>
-                              view
-                          </a>
-            
-                          <a class='btn btn-danger btn-sm' href="{{route('projects.destroy',$project['id'])}}">
-                              <i class='fas fa-trash'>
-                              </i>
-                              Delete
-                          </a>
-                      </td>
+                      <form action="{{ route('projects.destroy', $project['id']) }}" method="POST">
+                     <td class="project-actions text-right">
+                         <a class="btn btn-primary btn-sm" href="{{ route('projects.show',$project['id']) }}">
+                             <i class="fas fa-folder">
+                             </i>
+                             View
+                         </a>
+                         <a class="btn btn-info btn-sm" href="{{ route('projects.edit',$project['id']) }}">
+                             <i class="fas fa-pencil-alt">
+                             </i>
+                             Edit
+                             @csrf
+                             @method('DELETE')
+                         </a>
+                         <button class="btn btn-danger btn-sm" type="submit">
+                             <i class="fas fa-trash">
+                             </i>
+                             Delete
+                            </button>
+                        </form>
                   </tr>
               @endforeach   
               </tbody>

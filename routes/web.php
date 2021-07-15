@@ -18,7 +18,7 @@ use App\Http\Controllers\ProjectController;
 */
 
 Route::get('/', function () {
-    return view('dashboard');
+    return view('auth.login');
 });
 Route::get('/display',[ProjectViewController::class,"show"]);
 Route::get('/contacts',[ContactsController::class,"show"]);
@@ -27,3 +27,6 @@ Route::get('/add', function () {
 });
 
 route::Resource('projects',ProjectController::class);
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

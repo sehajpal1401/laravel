@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class User extends Migration
+class CreateProjectBudgetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,17 @@ class User extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('project_budgets', function (Blueprint $table) {
             $table->id();
-                $table->string('fullname');
+            $table->unsignedBigInteger('project_id');
+                $table->string('project_budget');
                 $table->string('amount_spent');
                 $table->string('estimated_duration');
-            });
+                $table->timestamps();
+                $table->foreign('project_id')->references('id')->on('projects')
+                ->onDelete('cascade');
+    
+        });
     }
 
     /**
@@ -28,6 +33,6 @@ class User extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('project_budgets');
     }
 }

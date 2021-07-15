@@ -87,7 +87,7 @@
               <ul class="list-unstyled">
               @foreach($projectfile as $key)
                <li>   
-                  <a href="#" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> {{$key}}</a>
+                  <a href="\storage/{{$key}}" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> {{$key}}</a>
                 
                 </li>
                 @endforeach

@@ -50,7 +50,7 @@
                 <label for="inputDescription">Team members</label>
                 <select id="teammembers[]" name="teammembers[]" multiple class="form-control" value="{{$data2['project_team']}}" >
                   @foreach($data as $user)
-                  <option value ="{{$user['user_id']}}">{{$user['username']}}</option>
+                  <option value ="{{$user['id']}}">{{$user['name']}}</option>
                   @endforeach
                 </select>
               </div>

@@ -5,8 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Project_budget extends Model
+class ProjectBudget extends Model
 {
     use HasFactory;
-    public $table="project_budget";
+   
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
 }
